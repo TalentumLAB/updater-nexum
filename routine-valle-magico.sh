@@ -1,11 +1,11 @@
 #!/bin/sh
 echo "--------------"
 echo "Start process - Clear Container"
-sh ./clear-container.sh
+sh /repositories/clear-container.sh
 echo "--------------"
 echo ""
 echo "--------------"
 echo "docker compose updater"
-sh ./docker-compose-update.sh jrgranada/valle-magico-i3lap
+sh /repositories/docker-compose-update.sh
 echo "--------------"
 echo ""

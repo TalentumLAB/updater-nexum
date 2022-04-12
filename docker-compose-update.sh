@@ -24,8 +24,8 @@ download_release_file() {
         && rm "$ZIP_FILE"
 }
 
-GITHUB_REPOSITORY="$1"
-DEPLOYMENT_DIR="$1"
+GITHUB_REPOSITORY="jrgranada/valle-magico-i3lap"
+DEPLOYMENT_DIR="./repositories/jrgranada/valle-magico-i3lap"
 TMP=`cat $DEPLOYMENT_DIR/LATEST_VERSION.txt 2>/dev/null || true`
 CURRENT_VERSION="${TMP:-0.0.0}"
 LATEST_VERSION=`get_latest_release $GITHUB_REPOSITORY`
