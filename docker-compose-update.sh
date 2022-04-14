@@ -32,6 +32,11 @@ LATEST_VERSION=`get_latest_release $GITHUB_REPOSITORY`
 
 if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
     if [ -e "$DEPLOYMENT_DIR" ]; then
+
+        #Modify BD name
+        sh /repositories/replace_valle_magico_db.sh
+
+         # Deploy the application
         docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml up -d
     fi
     echo "Docker compose is already running the latest version ($LATEST_VERSION)"
@@ -52,6 +57,9 @@ else
     # Delete the current deployment
     rm -rf $DEPLOYMENT_DIR/*
     mv $TMP_DIR/* $DEPLOYMENT_DIR
+
+    #Modify BD name
+    sh /repositories/replace_valle_magico_db.sh
 
     # Deploy the application
     docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml up -d
