@@ -29,15 +29,16 @@ DEPLOYMENT_DIR="/repositories/jrgranada/valle-magico-i3lap"
 TMP=`cat $DEPLOYMENT_DIR/LATEST_VERSION.txt 2>/dev/null || true`
 CURRENT_VERSION="${TMP:-0.0.0}"
 LATEST_VERSION=`get_latest_release $GITHUB_REPOSITORY`
+DC_ROUTE="/usr/local/bin"
 
 if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
     if [ -e "$DEPLOYMENT_DIR" ]; then
 
-        #Modify BD name
-        sh /repositories/replace_valle_magico_db.sh
+      # Modify BD name
+      sh /repositories/replace_valle_magico_db.sh
 
-         # Deploy the application
-        docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml up -d
+      # Deploy the application
+      $DC_ROUTE/docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml up -d
     fi
     echo "Docker compose is already running the latest version ($LATEST_VERSION)"
 else
@@ -58,11 +59,11 @@ else
     rm -rf $DEPLOYMENT_DIR/*
     mv $TMP_DIR/* $DEPLOYMENT_DIR
 
-    #Modify BD name
+    # Modify BD name
     sh /repositories/replace_valle_magico_db.sh
 
     # Deploy the application
-    docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml up -d
+    $DC_ROUTE/docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml up -d
 
     # Store the latest version and remove temporary files
     echo $LATEST_VERSION > $DEPLOYMENT_DIR/LATEST_VERSION.txt
