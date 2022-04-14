@@ -35,7 +35,7 @@ if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
     if [ -e "$DEPLOYMENT_DIR" ]; then
 
       # Modify BD name
-      sh /repositories/replace_valle_magico_db.sh
+      /bin/bash /repositories/replace_valle_magico_db.sh
 
       # Deploy the application
       $DC_ROUTE/docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml up -d
@@ -60,7 +60,7 @@ else
     mv $TMP_DIR/* $DEPLOYMENT_DIR
 
     # Modify BD name
-    sh /repositories/replace_valle_magico_db.sh
+    /bin/bash /repositories/replace_valle_magico_db.sh
 
     # Deploy the application
     $DC_ROUTE/docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml up -d
