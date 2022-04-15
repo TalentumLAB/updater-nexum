@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Usage: sh ./docker-compose-update.sh github_username/github_repository
 #
