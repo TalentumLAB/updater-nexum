@@ -2,7 +2,6 @@
 #
 # Usage: sh ./docker-compose-update.sh github_username/github_repository
 #
-
 # From: https://gist.github.com/lukechilds/a83e1d7127b78fef38c2914c4ececc3c
 get_latest_release() {
     GITHUB_REPO="$1"
@@ -35,37 +34,45 @@ if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
     if [ -e "$DEPLOYMENT_DIR" ]; then
 
       # Modify BD name
-      /bin/bash /repositories/replace_valle_magico_db.sh
+      #sh /repositories/replace_valle_magico_db.sh
 
       # Deploy the application
       $DC_ROUTE/docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml up -d
     fi
     echo "Docker compose is already running the latest version ($LATEST_VERSION)"
 else
-    echo "Docker compose is running an old version (current: $CURRENT_VERSION, latest: $LATEST_VERSION)"
+    wget -q --spider http://google.com
+    check_internet=$?
 
-    # Download the latest release's files
-    TMP_DIR=`mktemp -d -t docker-compose-XXXXXXXXXX`
-    download_release_file $GITHUB_REPOSITORY $TMP_DIR $LATEST_VERSION
+    if [ $check_internet -eq 0 ]; then
+        echo "Docker compose is running an old version (current: $CURRENT_VERSION, latest: $LATEST_VERSION)"
 
-    # Stop the current deployment
-    if [ -e "$DEPLOYMENT_DIR" ]; then
-        docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml down
+        # Download the latest release's files
+        TMP_DIR=`mktemp -d -t docker-compose-XXXXXXXXXX`
+        download_release_file $GITHUB_REPOSITORY $TMP_DIR $LATEST_VERSION
+
+        # Stop the current deployment
+        if [ -e "$DEPLOYMENT_DIR" ]; then
+            docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml down
+        else
+            mkdir -p $DEPLOYMENT_DIR
+        fi
+
+        # Delete the current deployment
+        rm -rf $DEPLOYMENT_DIR/*
+        mv $TMP_DIR/* $DEPLOYMENT_DIR
+
+        # Modify BD name
+        /bin/bash /repositories/replace_valle_magico_db.sh
+
+        # Deploy the application
+        $DC_ROUTE/docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml up -d
+
+        # Store the latest version and remove temporary files
+        echo $LATEST_VERSION > $DEPLOYMENT_DIR/LATEST_VERSION.txt
+        echo "Docker compose is now running version ${LATEST_VERSION}"
     else
-        mkdir -p $DEPLOYMENT_DIR
+        $DC_ROUTE/docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml up -d
+        echo "Docker compose is already running the latest version ($LATEST_VERSION)"
     fi
-
-    # Delete the current deployment
-    rm -rf $DEPLOYMENT_DIR/*
-    mv $TMP_DIR/* $DEPLOYMENT_DIR
-
-    # Modify BD name
-    /bin/bash /repositories/replace_valle_magico_db.sh
-
-    # Deploy the application
-    $DC_ROUTE/docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml up -d
-
-    # Store the latest version and remove temporary files
-    echo $LATEST_VERSION > $DEPLOYMENT_DIR/LATEST_VERSION.txt
-    echo "Docker compose is now running version ${LATEST_VERSION}"
 fi
