@@ -23,8 +23,8 @@ download_release_file() {
         && rm "$ZIP_FILE"
 }
 
-GITHUB_REPOSITORY="jrgranada/valle-magico-i3lap"
-DEPLOYMENT_DIR="/repositories/jrgranada/valle-magico-i3lap"
+GITHUB_REPOSITORY="TalentumLAB/Colcha-de-Tesoros-i3lap"
+DEPLOYMENT_DIR="/git/Colcha-de-Tesoros-i3lap"
 TMP=`cat $DEPLOYMENT_DIR/LATEST_VERSION.txt 2>/dev/null || true`
 CURRENT_VERSION="${TMP:-0.0.0}"
 LATEST_VERSION=`get_latest_release $GITHUB_REPOSITORY`
@@ -63,7 +63,7 @@ else
         mv $TMP_DIR/* $DEPLOYMENT_DIR
 
         # Modify BD name
-        /bin/bash /repositories/replace_valle_magico_db.sh
+        /bin/bash /git/updater-nexum/replace_valle_magico_db.sh
 
         # Deploy the application
         $DC_ROUTE/docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml up -d
