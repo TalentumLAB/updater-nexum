@@ -21,11 +21,11 @@ if [ -f $mac_file ]; then
 		mac=$(<"${mac_file}")
 
 		#Archivo a reemplazar
-		file="/repositories/jrgranada/valle-magico-i3lap/docker-compose.yml"
+		file="/git/Colcha-de-Tesoros-i3lap/docker-compose.yml"
 
 
 		#Se modifica el archivo. 
-		sed -i "s/talentumehs_valle_magico/vallem_db_lap_"$mac"/g" $file
+		sed -i "s/talentum_inclusion_narino/narinoinc_db_lap_"$mac"/g" $file
 	fi 
 fi
 

@@ -63,7 +63,7 @@ else
         mv $TMP_DIR/* $DEPLOYMENT_DIR
 
         # Modify BD name
-        /bin/bash /git/updater-nexum/replace_valle_magico_db.sh
+        /bin/bash /git/updater-nexum/replace_narinoinc_db.sh
 
         # Deploy the application
         $DC_ROUTE/docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml up -d
