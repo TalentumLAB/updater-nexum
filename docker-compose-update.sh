@@ -37,6 +37,7 @@ if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
       #sh /repositories/replace_valle_magico_db.sh
 
       # Deploy the application
+      service docker restart
       $DC_ROUTE/docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml up -d
     fi
     echo "Docker compose is already running the latest version ($LATEST_VERSION)"
@@ -66,12 +67,14 @@ else
         /bin/bash /git/updater-nexum/replace_narinoinc_db.sh
 
         # Deploy the application
+        service docker restart
         $DC_ROUTE/docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml up -d
 
         # Store the latest version and remove temporary files
         echo $LATEST_VERSION > $DEPLOYMENT_DIR/LATEST_VERSION.txt
         echo "Docker compose is now running version ${LATEST_VERSION}"
     else
+        service docker restart
         $DC_ROUTE/docker-compose -f $DEPLOYMENT_DIR/docker-compose.yml up -d
         echo "Docker compose is already running the latest version ($LATEST_VERSION)"
     fi
