@@ -29,7 +29,7 @@ TMP=`cat $DEPLOYMENT_DIR/LATEST_VERSION.txt 2>/dev/null || true`
 CURRENT_VERSION="${TMP:-0.0.0}"
 LATEST_VERSION=`get_latest_release $GITHUB_REPOSITORY`
 DC_ROUTE="/usr/local/bin"
-
+sleep 20
 if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
     if [ -e "$DEPLOYMENT_DIR" ]; then
 
