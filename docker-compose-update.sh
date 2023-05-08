@@ -23,13 +23,14 @@ download_release_file() {
         && rm "$ZIP_FILE"
 }
 
+sleep 50
+
 GITHUB_REPOSITORY="TalentumLAB/Colcha-de-Tesoros-i3lap"
 DEPLOYMENT_DIR="/git/Colcha-de-Tesoros-i3lap"
 TMP=`cat $DEPLOYMENT_DIR/LATEST_VERSION.txt 2>/dev/null || true`
 CURRENT_VERSION="${TMP:-0.0.0}"
 LATEST_VERSION=`get_latest_release $GITHUB_REPOSITORY`
 DC_ROUTE="/usr/local/bin"
-
 if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
     if [ -e "$DEPLOYMENT_DIR" ]; then
 
