@@ -2,6 +2,8 @@
 
 cp /git/updater-nexum/jq-linux64 /bin/jq
 
+chmod +x /bin/jq
+
 echo "@reboot /bin/bash /git/updater-nexum/docker-compose-update.sh" >> /var/spool/cron/crontabs/root
 
 zip --version
